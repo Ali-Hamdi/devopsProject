@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  Kaddem:
+    container_name: Kaddem
+    image: alihamdi12/kaddem-2
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://dbmysql:3306/kaddem?createDatabaseIfNotExist=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+    restart: always
+    depends_on:
+      - dbmysql
+
+  dbmysql:
+    image: "mysql:5.6"
+    container_name: dbmysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes  # Corrected to be a list of environment variables
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  db:
